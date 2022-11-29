@@ -13,12 +13,12 @@ users_schema = UserSchema(many=True)
 
 @user_ns.route('/<username>')
 class UserView(Resource):
-    @admin_required
+    #@admin_required
     def get(self, username):
         user = user_service.get_user_by_username(username)
         return user_schema.dump(user), 200
 
-    @admin_required
+    #@admin_required
     def delete(self, username):
         try:
             user_service.delete(username)
@@ -26,7 +26,7 @@ class UserView(Resource):
         except Exception as e:
             return 404
 
-    @auth_required
+    #@auth_required
     def put(self, username):
         req_json = request.json
         user_service.update(req_json, username)

@@ -13,7 +13,7 @@ movies_schema = MovieSchema(many=True)
 
 @movie_ns.route('/')
 class MoviesView(Resource):
-    @auth_required
+    #@auth_required
     def get(self):
         try:
             director = request.args.get('director_id')
@@ -24,12 +24,12 @@ class MoviesView(Resource):
                 "genre_id": genre,
                 "year": year
             }
-            movie = movie_service.get_all()
+            movie = movie_service.get_all(filters)
             return movies_schema.dump(movie), 200
         except Exception as e:
             return 404
 
-    @admin_required
+    #@admin_required
     def post(self):
         try:
             req_json = request.json
@@ -41,7 +41,7 @@ class MoviesView(Resource):
 
 @movie_ns.route('/<int:mid>')
 class MovieView(Resource):
-    @auth_required
+    #@auth_required
     def get(self, mid: int):
         try:
             movie = movie_service.get_one(mid)
@@ -49,7 +49,7 @@ class MovieView(Resource):
         except Exception as e:
             return "movie not found"
 
-    @admin_required
+    #@admin_required
     def put(self, mid):
         try:
             req_json = request.json
@@ -59,7 +59,7 @@ class MovieView(Resource):
         except Exception as e:
             return "movie not updated", 404
 
-    @admin_required
+    #@admin_required
     def delete(self, mid):
         try:
             movie_service.delete(mid)

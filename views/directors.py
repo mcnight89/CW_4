@@ -13,7 +13,7 @@ directors_schema = DirectorSchema(many=True)
 
 @director_ns.route('/')
 class DirectorsView(Resource):
-    @auth_required
+    #@auth_required
     def get(self):
         try:
             director = director_service.get_all()
@@ -21,7 +21,7 @@ class DirectorsView(Resource):
         except Exception as e:
             return 404
 
-    @admin_required
+    #@admin_required
     def post(self):
         try:
             req_json = request.json
@@ -33,7 +33,7 @@ class DirectorsView(Resource):
 
 @director_ns.route('/<int:did>')
 class DirectorView(Resource):
-    @auth_required
+    #@auth_required
     def get(self, did: int):
         try:
             director = director_service.get_one(did)
@@ -41,7 +41,7 @@ class DirectorView(Resource):
         except Exception as e:
             return "director not found"
 
-    @admin_required
+    #@admin_required
     def put(self, did):
         try:
             req_json = request.json
@@ -51,7 +51,7 @@ class DirectorView(Resource):
         except Exception as e:
             return "director not updated", 404
 
-    @admin_required
+    #@admin_required
     def delete(self, did):
         try:
             director_service.delete(did)
