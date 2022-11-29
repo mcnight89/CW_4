@@ -3,7 +3,7 @@ from flask import request
 
 from dao.model.movie import MovieSchema
 from implemented import movie_service
-#from decorators import admin_required, auth_required
+from decorators import auth_required
 
 movie_ns = Namespace('movies')
 
@@ -13,7 +13,7 @@ movies_schema = MovieSchema(many=True)
 
 @movie_ns.route('/')
 class MoviesView(Resource):
-    #@auth_required
+    @auth_required
     def get(self):
         try:
             status = request.args.get('status')
@@ -29,6 +29,7 @@ class MoviesView(Resource):
         except Exception as e:
             return 404
 
+
 #    @admin_required
 #    def post(self):
 #        try:
@@ -41,7 +42,7 @@ class MoviesView(Resource):
 
 @movie_ns.route('/<int:mid>')
 class MovieView(Resource):
-    #@auth_required
+    @auth_required
     def get(self, mid: int):
         try:
             movie = movie_service.get_one(mid)

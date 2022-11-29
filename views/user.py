@@ -15,7 +15,7 @@ users_schema = UserSchema(many=True)
 
 @user_ns.route('/')
 class UserView(Resource):
-    # @auth_required
+    @auth_required
     def get(self):
         user_data = request.headers['Authorization']
         token = user_data.split('Bearer ')[-1]
@@ -45,7 +45,7 @@ class UserView(Resource):
 
 @user_ns.route('/password/')
 class UserView(Resource):
-    # @auth_required
+    @auth_required
     def put(self):
         data = request.json
         user_data = request.headers['Authorization']
