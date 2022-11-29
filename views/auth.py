@@ -1,21 +1,34 @@
 from flask_restx import Resource, Namespace
 from flask import request, abort
-from implemented import auth_service
+from implemented import auth_service, user_service
 
 auth_ns = Namespace('auth')
 
 
-@auth_ns.route('/')
+@auth_ns.route('/register/')
 class AuthView(Resource):
     def post(self):
         data = request.json
-        username = data.get('username', None)
+        email = data.get('email', None)
         password = data.get('password', None)
-        if None in [username, password]:
+        if email is None or password is None:
             return "отсутствуют логин или пароль", 400
 
-        tokens = auth_service.generate_tokens(username, password)
+        user_service.create(data)
 
+        return '', 201
+
+
+@auth_ns.route('/login/')
+class AuthView(Resource):
+    def post(self):
+        data = request.json
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        if email is None or password is None:
+            return '', 400
+        tokens = auth_service.generate_tokens(email, password)
         return tokens, 201
 
     def put(self):
@@ -28,4 +41,3 @@ class AuthView(Resource):
 
         except Exception as e:
             abort(400)
-
