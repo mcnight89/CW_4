@@ -10,8 +10,8 @@ class AuthService:
     def __init__(self, user_service):
         self.user_service = user_service
 
-    def generate_tokens(self, username, password, is_refresh=False):
-        user = self.user_service.get_user_by_username(username)
+    def generate_tokens(self, email, password, is_refresh=False):
+        user = self.user_service.get_user_by_email(email)
         if user is None:
             abort(401)
 
@@ -19,8 +19,8 @@ class AuthService:
             if not self.user_service.compare_password(user.password, password):
                 abort(401)
         data = {
-            "username": user.username,
-            "role": user.role
+            "email": user.email,
+            "password": user.password.decode("utf-8")
         }
 
         min30 = datetime.datetime.utcnow() + datetime.timedelta(minutes=30)
@@ -36,7 +36,7 @@ class AuthService:
     def approve_refresh_token(self, refresh_token):
         try:
             user_data = jwt.decode(jwt=refresh_token, key=JWT_SECRET, algorithm=[JWT_ALGORITHM])
-            user_name = user_data.get('username')
-            return self.generate_tokens(user_name, None, is_refresh=True)
+            email = user_data.get('email')
+            return self.generate_tokens(email, None, is_refresh=True)
         except Exception as e:
             abort(401)

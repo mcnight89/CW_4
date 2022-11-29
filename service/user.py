@@ -10,8 +10,8 @@ class UserService:
     def __init__(self, dao: UserDAO):
         self.dao = dao
 
-    def get_user_by_username(self, username):
-        return self.dao.get_user_by_username(username)
+    def get_user_by_id(self, username):
+        return self.dao.get_user_by_id(username)
 
     def get_all(self):
         return self.dao.get_all()
@@ -22,9 +22,9 @@ class UserService:
         user['password'] = hashed_password
         self.dao.create(user)
 
-    def update(self, user, username):
+    def update(self, user, email):
         user['password'] = self.generate_password(user["password"])
-        return self.dao.update(user, username)
+        return self.dao.update(user, email)
 
     def delete(self, uid):
         self.dao.delete(uid)
