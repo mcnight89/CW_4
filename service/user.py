@@ -13,6 +13,9 @@ class UserService:
     def get_user_by_id(self, username):
         return self.dao.get_user_by_id(username)
 
+    def get_user_by_email(self, email):
+        return self.dao.get_user_by_email(email)
+
     def get_all(self):
         return self.dao.get_all()
 
@@ -22,12 +25,9 @@ class UserService:
         user['password'] = hashed_password
         self.dao.create(user)
 
-    def update(self, user, email):
+    def update(self, user):
         user['password'] = self.generate_password(user["password"])
-        return self.dao.update(user, email)
-
-    def delete(self, uid):
-        self.dao.delete(uid)
+        return self.dao.update(user)
 
     def generate_password(self, password):
         hash_digest = hashlib.pbkdf2_hmac(

@@ -17,11 +17,6 @@ class UserDAO:
         self.session.commit()
         return ent
 
-    #def delete(self, username):
-        #user = self.get_user_by_id(username)
-        #self.session.delete(user)
-        #self.session.commit()
-
     def update(self, user_d):
         email = user_d.get('email')
         self.session.query(User).filter(User.email == email).update(user_d)

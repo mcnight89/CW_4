@@ -16,13 +16,3 @@ class MovieService:
             page = filters.get("page")
         movies = self.dao.get_all(sort=sort, page=page)
         return movies
-
-    #def create(self, movie_d):
-        #return self.dao.create(movie_d)
-
-    #def update(self, movie_d):
-        #self.dao.update(movie_d)
-        #return self.dao
-
-    #def delete(self, rid):
-        #self.dao.delete(rid)
